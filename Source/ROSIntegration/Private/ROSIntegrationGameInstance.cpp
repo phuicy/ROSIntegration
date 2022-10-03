@@ -35,10 +35,18 @@ static void MarkAllROSObjectsAsDisconnected()
 	}
 }
 
+void UROSIntegrationGameInstance::Initialize
+(
+    FSubsystemCollectionBase & Collection
+) 
+{
+	Super::Initialize(Collection);
+	Init();
+}
+
 void UROSIntegrationGameInstance::Init()
 {
-	Super::Init();
-
+	UE_LOG(LogROS, Display, TEXT("UROSIntegrationGameInstance::Init() !"));
 	if (bConnectToROS)
 	{
 		bool resLock = initMutex_.TryLock(); 
@@ -86,7 +94,7 @@ void UROSIntegrationGameInstance::Init()
 		if (!bTimerSet)
 		{
 			bTimerSet = true; 
-			GetTimerManager().SetTimer(TimerHandle_CheckHealth, this, &UROSIntegrationGameInstance::CheckROSBridgeHealth, 1.0f, true, 5.0f);
+			GetGameInstance()->GetTimerManager().SetTimer(TimerHandle_CheckHealth, this, &UROSIntegrationGameInstance::CheckROSBridgeHealth, 1.0f, true, 5.0f);
 		}
 
 		if (bIsConnected)
@@ -186,12 +194,12 @@ void UROSIntegrationGameInstance::CheckROSBridgeHealth()
 }
 
 // N.B.: from log, first comes Shutdown() and then BeginDestroy()
-void UROSIntegrationGameInstance::Shutdown()
+void UROSIntegrationGameInstance::Deinitialize()
 {
 	UE_LOG(LogROS, Display, TEXT("ROS Game Instance - shutdown start"));
 	if (bConnectToROS)
 	{
-		if(bTimerSet) GetTimerManager().ClearTimer(TimerHandle_CheckHealth);
+		if(bTimerSet) GetGameInstance()->GetTimerManager().ClearTimer(TimerHandle_CheckHealth);
 
 		if (bSimulateTime)
 		{
@@ -203,7 +211,7 @@ void UROSIntegrationGameInstance::Shutdown()
 
 		UE_LOG(LogROS, Display, TEXT("ROS Game Instance - shutdown done"));
 	}
-	Super::Shutdown();
+	Super::Deinitialize();
 }
 
 void UROSIntegrationGameInstance::BeginDestroy()

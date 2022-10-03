@@ -307,7 +307,7 @@ void UTopic::Init(const FString& TopicName, EMessageType MessageType, int32 Queu
 	_State.Blueprint = true;
 	_State.BlueprintMessageType = MessageType;
 
-	UROSIntegrationGameInstance* ROSInstance = Cast<UROSIntegrationGameInstance>(GWorld->GetGameInstance());
+	UROSIntegrationGameInstance* ROSInstance = GWorld->GetGameInstance()->GetSubsystem<UROSIntegrationGameInstance>();
 	if (ROSInstance)
 	{
 		if (ROSInstance->bConnectToROS && _State.Connected)

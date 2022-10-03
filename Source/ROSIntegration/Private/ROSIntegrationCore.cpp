@@ -1,5 +1,5 @@
 #include "ROSIntegrationCore.h"
-#include "ROSIntegrationGameInstance.h"
+//#include "ROSIntegrationGameInstance.h"
 #include "rosbridge2cpp/TCPConnection.h"
 #include "rosbridge2cpp/ros_bridge.h"
 #include "rosbridge2cpp/ros_topic.h"

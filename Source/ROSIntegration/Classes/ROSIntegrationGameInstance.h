@@ -2,6 +2,7 @@
 
 #include <CoreMinimal.h>
 #include <Engine/GameInstance.h>
+#include "Subsystems/GameInstanceSubsystem.h"
 #include <Engine/EngineTypes.h>
 #include <Runtime/Launch/Resources/Version.h>
 #include "ROSIntegrationCore.h"
@@ -9,21 +10,26 @@
 #include "ROSIntegrationGameInstance.generated.h"
 
 UCLASS()
-class ROSINTEGRATION_API UROSIntegrationGameInstance : public UGameInstance
+class ROSINTEGRATION_API UROSIntegrationGameInstance : public UGameInstanceSubsystem 
 {
 	GENERATED_BODY()
 
 public:
-	virtual void Init() override;
-	virtual void Shutdown() override;
+	virtual void Initialize
+	(
+    	FSubsystemCollectionBase & Collection
+	) override;
+	virtual void Deinitialize() override;
 	virtual void BeginDestroy() override;
+
+	virtual void Init();
 
 public:
 	UPROPERTY()
 	UROSIntegrationCore* ROSIntegrationCore = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ROS")
-	FString ROSBridgeServerHost = "127.0.0.1";
+	FString ROSBridgeServerHost = "192.168.1.35";
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ROS")
 	int32 ROSBridgeServerPort = 9090;

@@ -26,7 +26,7 @@ void ULookAtScanComponent::BeginPlay()
 
 	ExampleTopic = NewObject<UTopic>(UTopic::StaticClass());
 
-	UROSIntegrationGameInstance* ROSInstance = Cast<UROSIntegrationGameInstance>(OwningActor->GetGameInstance());
+	UROSIntegrationGameInstance* ROSInstance = OwningActor->GetGameInstance()->GetSubsystem<UROSIntegrationGameInstance>();
 	ExampleTopic->Init(ROSInstance->ROSIntegrationCore, CommandTopic, TEXT("std_msgs/String"));
 	ExampleTopic->Subscribe(SubscribeCallback);
 }
